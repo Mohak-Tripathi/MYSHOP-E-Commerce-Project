@@ -1,16 +1,28 @@
 import React from "react";
-
+import Footer from "./Components/Footer";
+import Header from "./Components/Header";
+import {Container} from 'react-bootstrap';
+import HomeScreen from "./screens/HomeScreen.jsx"
 
 function App() {
   return (
     <>
-     <h1>Welcome To Proshop</h1>
+      <Header />
+     
+        <main className="py-3">
+        <Container>
+          {" "}
+     <HomeScreen/>
+          </Container>
+        </main>
+   
+
+      <Footer />
     </>
   );
 }
 
 export default App;
-
 
 // rm rf .git
 // put. gitignore in the root directory
