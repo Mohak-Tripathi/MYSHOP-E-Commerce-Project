@@ -1,37 +1,40 @@
 // const express= require('express');
-import express from 'express'
+import express from "express";
 
-import connectDB from "./config/db.js"
+import connectDB from "./config/db.js";
+import productRoutes from "./routes/productRoutes.js";
 
-connectDB()
+import {notFound, errorHandler} from "./middleware/errorMiddleware.js"
+
+connectDB();
 // const dotenv= require("dotenv")
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 // const products= require('./data/products');
 
-import products from './data/products.js' 
-//Note- If using ES Module then add ".js" in backend file only/ 
+//Note- If using ES Module then add ".js" in backend file only/
 
-dotenv.config()
-
+dotenv.config();
 
 const app = express();
 
 app.get("/", (req, res) => {
-   return  res.send("API is running")
-})
+  return res.send("API is running");
+});
 
 
-app.get("/api/products", (req, res) => {
-    return  res.json(products)
- })
 
- app.get("/api/products/:id", (req, res) => {
-   
-   const product = products.find(product => product._id === req.params.id)
-    return  res.send(product)
- })
+const PORT = process.env.PORT || 5000;
 
-const PORT= process.env.PORT || 5000
+app.use("/api/products", productRoutes);
+
+app.use(notFound)
 
 
-app.listen(PORT, console.log(`server is running in ${process.env.NODE_ENV} MODE at port ${PORT}`))
+app.use(errorHandler);
+
+app.listen(
+  PORT,
+  console.log(
+    `server is running in ${process.env.NODE_ENV} MODE at port ${PORT}`
+  )
+);
