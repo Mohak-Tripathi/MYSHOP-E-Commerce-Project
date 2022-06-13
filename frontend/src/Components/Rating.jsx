@@ -1,6 +1,6 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'  //Not necessary thing to do
+// import PropTypes from 'prop-types'  //Not necessary thing to do
 
 
 const Rating = ({value, text, color="#f8e825"}) => {
@@ -28,13 +28,13 @@ const Rating = ({value, text, color="#f8e825"}) => {
   )
 }
 
-Rating.propTypes = {
-    value : PropTypes.number.isRequired,
-    text : PropTypes.string.isRequired,
-    color : PropTypes.string,
+// Rating.propTypes = {
+//     value : PropTypes.number.isRequired,
+//     text : PropTypes.string.isRequired,
+//     color : PropTypes.string,
 
 
-}
+// }
 // not neccessary. Just to ensure more safety. Check console if type of props are different. Though it will work fine in screen 
 
 export default Rating

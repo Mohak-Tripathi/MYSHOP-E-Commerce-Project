@@ -17,6 +17,8 @@ const CartScreen= (()=>{
 
     const Qty= searchParams.get("qty")
 
+    console.log(id, Qty)
+
     const dispatch = useDispatch()
 
 const cart = useSelector((state) => state.cart)
