@@ -39,3 +39,57 @@ export {
     getProducts,
     getProductById
 }
+
+
+
+
+
+
+
+// import expressAsyncHandler from "express-async-handler";
+// import generateToken from "../utils/generateToken.js";
+// import User from "../models/userModel.js"; 
+
+
+
+// //@desc Auth user & get Token 
+// //@route POST/api/users/login
+// //@access PUBLIC - anybody can access it
+
+// // const authUser = expressAsyncHandler(async(req, res) => {
+// //   const users = await User.find({}).lean().exec()
+// //   // throw new Error ("problem")
+// //       return res.json({users})
+// // })
+
+
+
+// const authUser = expressAsyncHandler(async(req, res) => {
+//   const {email,password} = req.body
+
+//   // return res.send({email,password})
+
+// const user = await User.findOne({email: email})
+// console.log(user)
+
+// if(user &&  (await user.matchPassword(password))){
+
+// res.json({          
+//   _id: user._id,
+//   name: user.name,
+// email: user.email,
+// isAdmin: user.isAdmin,
+// token: generateToken(user._id)
+//   })
+
+
+// }
+// else{
+//   res.status(401)
+//   throw new Error ("invalid email or password")
+// }
+// })
+
+// // export {authUser}
+// export default authUser
+
