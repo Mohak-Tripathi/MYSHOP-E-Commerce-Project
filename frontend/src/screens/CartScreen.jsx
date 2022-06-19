@@ -3,8 +3,8 @@ import {useEffect} from "react"
 import {Link} from "react-router-dom"
 
 import {useDispatch, useSelector} from "react-redux";
-// import {Row, Col, ListGroup, Image, Form, Button, Cart} from "react-bootstrap"
-// import Message from "../Components/Message.jsx"
+import {Row, Col, ListGroup, Image, Form, Button, Cart} from "react-bootstrap"
+import Message from "../Components/Message.jsx"
 
 import {addToCart} from "../actions/cartActions.js"
 import {useParams, useSearchParams} from "react-router-dom"
