@@ -12,70 +12,55 @@ const OrderScreen = () => {
   const dispatch = useDispatch();
   const navigate= useNavigate()
 
-  const cart = useSelector((state) => state.cart);
-
-  console.log(cart, "mycartMohak")
+  const {id} = useParams();
 
 
 
-  const orderCreate= useSelector(state => state.orderCreate)
 
-  const {order, success, error} =orderCreate
+  const orderDetails= useSelector(state => state.orderCreate)
 
-  console.log(order, success, "myorderhai")
+  const {order, loading, error} = orderDetails // here orderDetails not getorderDetails (which is an action)
+
+
 
 
 useEffect(()=>{
 
-  if(success){
-    navigate(`/order/${order._id}`)   //order._id  comes from "order"
-  }
-  //eslint-disable-next-line
-},[dispatch, success, navigate])
+dispatch(getOrderDetails(id))
+},[dispatch, id])
 
 
-  const placeOrderHandler = (cart) => {
-    dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        taxPrice: cart.taxPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
-      })
-    );
-  };
+  
 
-  return (
-    <>
-      <CheckoutSteps> step1 step2 step3 step4</CheckoutSteps>
-      <Row>
+  return loading ? <Loader /> : error ? <Message variant="danger"> {error}</Message> : <>
+  
+  <h1>Order {order._id}</h1> 
+
+  <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2> Shipping</h2>
               <p>
                 <strong> Address: </strong>
-                {cart.shippingAddress.address}
-                {cart.shippingAddress.city}
-                {cart.shippingAddress.postalCode}
-                {cart.shippingAddress.country}
+                {order.shippingAddress.address}
+                {order.shippingAddress.city}
+                {order.shippingAddress.postalCode}
+                {order.shippingAddress.country}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Payment Method</h2>
-              <strong> {cart.paymentMethod} </strong>
+              <strong> {order.paymentMethod} </strong>
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h2> Order Items</h2>
-              {cart.cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
+              {order.orderItems.length === 0 ? (
+                <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>
-                  {cart.cartItems.map((item, index) => {
+                  {order.orderItems.map((item, index) => {
                     return (
                       <ListGroup.Item key={index}>
                         <Row>
@@ -119,60 +104,47 @@ useEffect(()=>{
               <ListGroup.Item>
                 <Row>
                   <Col> Items</Col>
-                  <Col> ${cart.itemsPrice}</Col>
+                  <Col> ${order.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Shipping Price</Col>
-                  <Col> ${cart.shippingPrice}</Col>
+                  <Col> ${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Items</Col>
-                  <Col> ${cart.shippingPrice}</Col>
+                  <Col> ${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Tax Price </Col>
-                  <Col> ${cart.taxPrice}</Col>
+                  <Col> ${order.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Total </Col>
-                  <Col> ${cart.totalPrice}</Col>
+                  <Col> ${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-<ListGroup.Item> 
-  {error && <Message variant="danger">{error}  </Message>}
-</ListGroup.Item>
 
 
 
-              <ListGroup.Item>
-                <Button
-                  type='button'
-                  className='btn-block btn'
-                  disabled={cart.cartItems === 0}
-                  onClick={ () => placeOrderHandler(cart)}
-                >
-                  {" "}
-                  Place Order{" "}
-                </Button>
-              </ListGroup.Item>
+
+            
             </ListGroup>
           </Card>
         </Col>
       </Row>
-    </>
-  );
+   </>
 };
 
 export default OrderScreen;
