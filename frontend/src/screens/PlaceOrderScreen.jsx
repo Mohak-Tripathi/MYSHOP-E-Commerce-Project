@@ -14,7 +14,7 @@ const PlaceOrderScreen = () => {
 
   const cart = useSelector((state) => state.cart);
 
-  console.log(cart, "mycartMohak")
+  // console.log(cart, "mycartMohak")
 
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
@@ -48,7 +48,7 @@ useEffect(()=>{
     navigate(`/order/${order._id}`)   //order._id  comes from "order"
   }
   //eslint-disable-next-line
-},[dispatch, success, navigate])
+},[success, navigate])
 
 
   const placeOrderHandler = (cart) => {
