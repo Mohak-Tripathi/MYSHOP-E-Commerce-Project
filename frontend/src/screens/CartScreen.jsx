@@ -32,6 +32,7 @@ const CartScreen = () => {
 
   const { cartItems } = cart;
 
+  const navigate = useNavigate()
   console.log(cartItems);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const CartScreen = () => {
 
   const checkoutHandler = () => {
     console.log("checkout")
+    navigate("/shipping")
 
 //if(login){
 //     useNavigate("/shipping")
