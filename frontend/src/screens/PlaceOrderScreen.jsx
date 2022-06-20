@@ -83,7 +83,7 @@ useEffect(()=>{
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Payment Method</h2>
-              <strong> {cart.paymentMethod} </strong>
+              <strong> Method: {cart.paymentMethod} </strong>
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -147,12 +147,12 @@ useEffect(()=>{
                 </Row>
               </ListGroup.Item>
 
-              <ListGroup.Item>
+              {/* <ListGroup.Item>
                 <Row>
                   <Col> Items</Col>
                   <Col> ${cart.shippingPrice}</Col>
                 </Row>
-              </ListGroup.Item>
+              </ListGroup.Item> */}
 
               <ListGroup.Item>
                 <Row>

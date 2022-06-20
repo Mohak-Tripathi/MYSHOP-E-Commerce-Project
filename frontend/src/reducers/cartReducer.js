@@ -1,6 +1,8 @@
 import { CART_ADD_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD } from "../constants/cartConstant.js";
 
 export const cartReducer = (state = { cartItems: [], shippingAddress: {}, paymentMethod:{} }, action) => {
+  // Note= shippingprice, totalprice, taxprice, itemsprice etc are coming in store from placeorder page directly
+  
   switch (action.type) {
     case CART_ADD_ITEM:
       const item = action.payload;

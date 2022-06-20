@@ -35,7 +35,7 @@ const addOrderItems = expressAsyncHandler(async (req, res) => {
         shippingPrice,
         totalPrice,
     });
-const createdOrder = await order.save();
+const createdOrder = await order.save(); // CREATING ORDER HERE IN DATABASE THEN SAVING IT
 res.status(201).json(createdOrder);
 
   }

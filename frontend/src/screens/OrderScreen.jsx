@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -10,48 +10,86 @@ import { getOrderDetails } from "../actions/orderActions";
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
-  const {id} = useParams();
+  const { id } = useParams();
 
+  const orderDetails = useSelector((state) => state.orderCreate);
 
+  const { order, loading, error } = orderDetails; // here orderDetails not getorderDetails (which is an action)
 
+  if (loading) {
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) / 100).toFixed(2);
+    };
 
-  const orderDetails= useSelector(state => state.orderCreate)
+    order.itemsPrice = addDecimals(
+      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    );
 
-  const {order, loading, error} = orderDetails // here orderDetails not getorderDetails (which is an action)
+    //order.itemPrice should come from mongoose
+  }
 
+  useEffect(() => {
+    if (!order || order._id !== id) {
+      dispatch(getOrderDetails(id));
+    }
+  }, [dispatch, id, order]);
 
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant='danger'> {error}</Message>
+  ) : (
+    <>
+      {/* <h1>Order {order._id}</h1> */}
 
-
-useEffect(()=>{
-
-dispatch(getOrderDetails(id))
-},[dispatch, id])
-
-
-  
-
-  return loading ? <Loader /> : error ? <Message variant="danger"> {error}</Message> : <>
-  
-  <h1>Order {order._id}</h1> 
-
-  <Row>
+      <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2> Shipping</h2>
+
+              <p>
+                {" "}
+                {/* <strong> Name:</strong> {order.user.name}{" "} */}
+              </p>
+              <p>
+                {" "}
+                {/* <strong> Email:</strong> {order.user.email} */}
+                {/* <a href={`mailto:${order.user.email}`}>{order.user.email}</a> */}
+              </p>
+
               <p>
                 <strong> Address: </strong>
-                {order.shippingAddress.address}
-                {order.shippingAddress.city}
-                {order.shippingAddress.postalCode}
-                {order.shippingAddress.country}
+                {order.ShippingAddress.address}
+                {order.ShippingAddress.city}
+                {order.ShippingAddress.postalCode}
+                {order.ShippingAddress.country}
               </p>
+
+              {order.isDelivered ? (
+                <Message variant='success'>
+                  Delievered on {order.deliveredAt}
+                </Message>
+              ) : (
+                <Message variant='danger'>Not Delivered</Message>
+              )}
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Payment Method</h2>
-              <strong> {order.paymentMethod} </strong>
+
+              <p>
+                <strong> Mathod: </strong>
+
+                {order.paymentMethod}
+              </p>
+
+              {order.isPaid ? (
+                <Message variant='success'>Paid on {order.paidAt}</Message>
+              ) : (
+                <Message variant='danger'>Not Paid</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -135,16 +173,12 @@ dispatch(getOrderDetails(id))
                   <Col> ${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
-
-
-
-            
             </ListGroup>
           </Card>
         </Col>
       </Row>
-   </>
+    </>
+  );
 };
 
 export default OrderScreen;
