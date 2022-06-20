@@ -6,6 +6,10 @@ import { productListReducer , productDetailsReducer} from './reducers/productRed
 import {cartReducer} from "./reducers/cartReducer.js"
 import {userLoginReducer,userRegisterReducer, userDetailsReducer,userUpdateProfileReducer} from "./reducers/userReducers.js"
 
+import {orderCreateReducer} from "./reducers/orderReducers.js"
+
+
+
 import thunk from "redux-thunk";
 // import {composeWithDevTools} from "redux-devtools-extention";
 
@@ -16,7 +20,9 @@ const rootreducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
-    userUpdateProfile: userUpdateProfileReducer
+    userUpdateProfile: userUpdateProfileReducer,
+    orderCreate: orderCreateReducer,
+
     
 
 

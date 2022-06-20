@@ -15,6 +15,8 @@ import dotenv from "dotenv";
 
 //Note- If using ES Module then add ".js" in backend file only/
 
+
+// const cors = require('cors');
 dotenv.config();
 
 const app = express();

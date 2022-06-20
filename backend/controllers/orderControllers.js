@@ -16,12 +16,13 @@ const addOrderItems = expressAsyncHandler(async (req, res) => {
     shippingPrice,
     totalPrice,
   } = req.body;
-  
+
 
   if (orderItems && orderItems.length === 0) {
+    // if (typeof orderItems === 'undefined' || orderItems.length === 0) 
     res.status(400);
     throw new Error("No order Items");
-    return;
+
   } else {
     const order = new Order({
 
@@ -40,5 +41,8 @@ res.status(201).json(createdOrder);
   }
 });
 
+// Note- The difference between the two is that .create() both instantiates a new mongoose schema object and saves it. 
+
+// In this case, Brad decided to do these two steps separately.  He first created a new order, calling it "order".  Afterwards, he put the saved order in createdOrder.
 
 export {addOrderItems}

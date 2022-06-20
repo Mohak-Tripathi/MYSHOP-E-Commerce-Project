@@ -1,44 +1,69 @@
 import React from "react";
 
-import { useState } from "react";
-import {
-  Button,
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Card,
-} from "react-bootstrap";
+import { useState , useEffect } from "react";
+import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import CheckoutSteps from "../Components/CheckoutSteps.jsx";
 import Message from "../Components/Message.jsx";
+import { createOrder } from "../actions/orderActions";
 
 const PlaceOrderScreen = () => {
+  const dispatch = useDispatch();
+  const navigate= useNavigate()
+
   const cart = useSelector((state) => state.cart);
 
+  console.log(cart, "mycartMohak")
 
-  const addDecimals= (num) =>{
-    return (Math.round(num * 100) / 100).toFixed(2)
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+  };
+
+  cart.itemsPrice = addDecimals(
+    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  );
+
+  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 76);
+
+  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
+
+  cart.totalPrice = (
+    Number(cart.itemsPrice) +
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)
+  ).toFixed(2);
+
+
+  const orderCreate= useSelector(state => state.orderCreate)
+
+  const {order, success, error} =orderCreate
+
+  console.log(order, success, "myorderhai")
+
+
+useEffect(()=>{
+
+  if(success){
+    navigate(`/order/${order._id}`)   //order._id  comes from "order"
   }
-
-cart.itemsPrice= addDecimals(cart.cartItems.reduce(
-  (acc, item) => acc + item.price * item.qty, 0))
-
-
-cart.shippingPrice = addDecimals( cart.itemsPrice > 100 ? 0 : 76)
-
-cart.taxPrice = addDecimals( Number((0.15 * cart.itemsPrice).toFixed(2)))
-
-cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
+  //eslint-disable-next-line
+},[dispatch, success, navigate])
 
 
-const placeOrderHandler = (state) => {
-  console.log("HI")
-}
-
-
-
+  const placeOrderHandler = (cart) => {
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        taxPrice: cart.taxPrice,
+        shippingPrice: cart.shippingPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
+  };
 
   return (
     <>
@@ -68,29 +93,32 @@ const placeOrderHandler = (state) => {
               ) : (
                 <ListGroup variant='flush'>
                   {cart.cartItems.map((item, index) => {
-                  return  <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
+                    return (
+                      <ListGroup.Item key={index}>
+                        <Row>
+                          <Col md={1}>
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fluid
+                              rounded
+                            />
+                          </Col>
 
-                        <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {" "}
-                            {item.name}
-                          </Link>
-                        </Col>
+                          <Col>
+                            <Link to={`/product/${item.product}`}>
+                              {" "}
+                              {item.name}
+                            </Link>
+                          </Col>
 
-                        <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>;
+                          <Col md={4}>
+                            {item.qty} x ${item.price} = $
+                            {item.qty * item.price}
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    );
                   })}
                 </ListGroup>
               )}
@@ -139,15 +167,21 @@ const placeOrderHandler = (state) => {
                   <Col> ${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+<ListGroup.Item> 
+  {error && <Message variant="danger">{error}  </Message>}
+</ListGroup.Item>
+
+
 
               <ListGroup.Item>
                 <Button
                   type='button'
                   className='btn-block btn'
                   disabled={cart.cartItems === 0}
-                  onClick={placeOrderHandler}
-                > Place Order
+                  onClick={ () => placeOrderHandler(cart)}
+                >
                   {" "}
+                  Place Order{" "}
                 </Button>
               </ListGroup.Item>
             </ListGroup>
