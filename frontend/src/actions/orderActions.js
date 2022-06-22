@@ -1,4 +1,4 @@
-import {ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL} from "../constants/orderConstant"
+import {ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL} from "../constants/orderConstant"
 import axios from "axios"
 
 
@@ -10,10 +10,6 @@ export const createOrder= (order) => async (dispatch, getState) => {
       });
   
       const {userLogin: {userInfo}} = getState()
-  
-  
-  console.log(userInfo, "vertika")
-     console.log(userInfo.token, "mohak")
   
   
       const config = {
@@ -55,9 +51,7 @@ export const createOrder= (order) => async (dispatch, getState) => {
   
       const {userLogin: {userInfo}} = getState()
   
-  
-  console.log(userInfo, "vertika")
-     console.log(userInfo.token, "mohak")
+
   
   
       const config = {
@@ -89,6 +83,55 @@ export const createOrder= (order) => async (dispatch, getState) => {
   
   
 
+
+  export const payOrder = (orderId, paymentResult) => async (dispatch, getState) => {
+  //paymentResult wil come from paypal
+    try {
+      dispatch({
+        type: ORDER_PAY_REQUEST,
+      });
+  
+      const {userLogin: {userInfo}} = getState()
+  
+
+  
+  
+      const config = {
+        headers: {
+          "Content-Type": "application/json",  
+          Authorization: `Bearer ${userInfo.token}` 
+  
+        },
+      };
+  
+      const { data } = await axios.put(
+        `http://localhost:5000/api/orders/${orderId}/pay`, paymentResult,   //NOT PASSING ORDER AS ORDER ALREADY THERE JUST UPDATING THE ORDER WITH ITS ORDERID
+        config
+      );
+  
+      dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
+  
+    } catch (error) {
+      dispatch({
+        type: ORDER_PAY_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+        // payload: error.response,
+      });
+    }
+  };
+  
+  
+
+
+
+  
+  
+  
+  
+  
 
 
   

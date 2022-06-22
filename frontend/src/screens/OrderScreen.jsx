@@ -1,16 +1,18 @@
 import React from "react";
 
-import { useEffect } from "react";
+import axios from "axios";
+import {useState, useEffect } from "react";
 import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Loader from "../Components/Loader.jsx";
 import Message from "../Components/Message.jsx";
 import { getOrderDetails } from "../actions/orderActions";
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+const [sdkReady, setSdkReady] = useState(false);
 
   const { id } = useParams();
 
@@ -18,23 +20,60 @@ const OrderScreen = () => {
 
   const { order, loading, error } = orderDetails; // here orderDetails not getorderDetails (which is an action)
 
-  // if (loading) {
-  //   const addDecimals = (num) => {
-  //     return (Math.round(num * 100) / 100).toFixed(2);
-  //   };
 
-  //   order.itemsPrice = addDecimals(
-  //     order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-  //   );
 
-  //   //order.itemPrice should come from mongoose
-  // }
+  const orderPay = useSelector((state) => state.orderPay);
+
+  const { loading:loadingPay, success: successPay } = orderPay;
+
+
+
+  if (!loading) {
+
+
+
+    const addDecimals = (num) => {
+      return (Math.round(num * 100) / 100).toFixed(2);
+    };
+
+    order.itemsPrice = addDecimals(
+      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    );
+   
+
+    //order.itemPrice should come from mongoose
+  }
 
   useEffect(() => {
-    if (!order || order._id !== id) {
-      dispatch(getOrderDetails(id));
+    const addPayPalScript = async () =>{
+      const {data: clientId} = await axios.get(`http://localhost:5000/api/config/paypal`)
+  
+      const script= document.createElement('script')
+      script.type= "text/javascript"
+      script.src= `https://www.paypal.com/sdk/js?client-id=${clientId}`
+script.async= true
+script.onload =() => {
+  setSdkReady(true)
+}
+document.body.appendChild(script)
+
+      // "https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&locale=en_US"></script
+
     }
-  }, [dispatch, id, order]);
+
+    
+    if (!order || order._id !== id || successPay) {
+      dispatch(getOrderDetails(id)); // with successPay==true - it will redispatch
+    }
+    else if(!order.isPaid){
+      if(!window.paypal){
+        addPayPalScript()
+      }
+      else{
+        setSdkReady(true)
+      }
+    }
+  }, [dispatch, id, order, successPay]);
 
   return loading ? (
     <Loader />
@@ -62,15 +101,15 @@ const OrderScreen = () => {
 
               <p>
                 <strong> Address: </strong>
-                {order.shippingAddress.address}
-                {order.shippingAddress.city}
-                {order.shippingAddress.postalCode}
+                {order.shippingAddress.address}  {" "}
+                {order.shippingAddress.city}  {" "}
+                {order.shippingAddress.postalCode} {" "}
                 {order.shippingAddress.country}
               </p>
 
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delievered on {order.deliveredAt}
+                  Delievered on {order.deliveredAt} // created at hona chahiye
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
@@ -153,12 +192,6 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
-              <ListGroup.Item>
-                <Row>
-                  <Col> Items</Col>
-                  <Col> ${order.shippingPrice}</Col>
-                </Row>
-              </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
