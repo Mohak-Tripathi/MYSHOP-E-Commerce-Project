@@ -24,7 +24,7 @@ export const orderCreateReducer = (state = {}, action) => {
     case ORDER_CREATE_FAIL:
       return {
         loading: false,
-        order: action.payload,
+        error: action.payload,
       };
 
     default:
@@ -49,14 +49,15 @@ export const orderDetailsReducer = (state = {loading: true, orderItems: [], ship
   
       case ORDER_DETAILS_SUCCESS:
         return {
+          // ...state, // took a chance
           loading: false,
-          order: action.payload,
+          order: action.payload, // create new order
         };
   
       case ORDER_DETAILS_FAIL:
         return {
           loading: false,
-          order: action.payload,
+          error: action.payload,
         };
   
       default:

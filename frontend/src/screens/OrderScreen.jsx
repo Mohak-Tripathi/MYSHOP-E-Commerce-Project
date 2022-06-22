@@ -1,7 +1,7 @@
 import React from "react";
 
-import { useState, useEffect } from "react";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { useEffect } from "react";
+import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Loader from "../Components/Loader.jsx";
@@ -14,21 +14,21 @@ const OrderScreen = () => {
 
   const { id } = useParams();
 
-  const orderDetails = useSelector((state) => state.orderCreate);
+  const orderDetails = useSelector((state) => state.orderDetails);
 
   const { order, loading, error } = orderDetails; // here orderDetails not getorderDetails (which is an action)
 
-  if (loading) {
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2);
-    };
+  // if (loading) {
+  //   const addDecimals = (num) => {
+  //     return (Math.round(num * 100) / 100).toFixed(2);
+  //   };
 
-    order.itemsPrice = addDecimals(
-      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    );
+  //   order.itemsPrice = addDecimals(
+  //     order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  //   );
 
-    //order.itemPrice should come from mongoose
-  }
+  //   //order.itemPrice should come from mongoose
+  // }
 
   useEffect(() => {
     if (!order || order._id !== id) {
@@ -42,7 +42,7 @@ const OrderScreen = () => {
     <Message variant='danger'> {error}</Message>
   ) : (
     <>
-      {/* <h1>Order {order._id}</h1> */}
+      <h1>Order {order._id}</h1>
 
       <Row>
         <Col md={8}>
@@ -52,20 +52,20 @@ const OrderScreen = () => {
 
               <p>
                 {" "}
-                {/* <strong> Name:</strong> {order.user.name}{" "} */}
+                <strong> Name:</strong> {order.user.name}{" "}
               </p>
               <p>
                 {" "}
-                {/* <strong> Email:</strong> {order.user.email} */}
-                {/* <a href={`mailto:${order.user.email}`}>{order.user.email}</a> */}
+                <strong> Email:</strong> {order.user.email}
+                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
 
               <p>
                 <strong> Address: </strong>
-                {order.ShippingAddress.address}
-                {order.ShippingAddress.city}
-                {order.ShippingAddress.postalCode}
-                {order.ShippingAddress.country}
+                {order.shippingAddress.address}
+                {order.shippingAddress.city}
+                {order.shippingAddress.postalCode}
+                {order.shippingAddress.country}
               </p>
 
               {order.isDelivered ? (

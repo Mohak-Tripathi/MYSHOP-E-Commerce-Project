@@ -9,10 +9,10 @@ import CartScreen from "./screens/CartScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
-import ShippingScreen from "./screens/ShippingScreen.jsx"
-import PaymentScreen from "./screens/PaymentScreen.jsx"
-import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx"
-import OrderScreen from "./screens/OrderScreen.jsx"
+import ShippingScreen from "./screens/ShippingScreen.jsx";
+import PaymentScreen from "./screens/PaymentScreen.jsx";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
+import OrderScreen from "./screens/OrderScreen.jsx";
 
 function App() {
   return (
@@ -29,13 +29,10 @@ function App() {
             <Route path='/profile' element={<ProfileScreen />} />
             <Route path='/product/:id' element={<ProductScreen />} />
             <Route path='/cart/:id' element={<CartScreen />} />{" "}
-            <Route path="/shipping" element={<ShippingScreen />} />
-            <Route path="/payment" element={<PaymentScreen />} />
-            <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/order/:id" element={<OrderScreen />} />
-
-
-
+            <Route path='/shipping' element={<ShippingScreen />} />
+            <Route path='/payment' element={<PaymentScreen />} />
+            <Route path='/placeorder' element={<PlaceOrderScreen />} />
+            <Route path='/order/:id' element={<OrderScreen />} />
             {"? MAKES id OPTIONAL    in cart/id"}
           </Routes>
         </Container>
