@@ -23,7 +23,7 @@ const rootreducer = combineReducers({
     userUpdateProfile: userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
-    orderPay: orderDetailsReducer,
+    orderPay: orderPayReducer,
 
     
 

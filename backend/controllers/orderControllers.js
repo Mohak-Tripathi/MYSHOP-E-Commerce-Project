@@ -71,18 +71,51 @@ if(order){
 
 
 
+//@desc Update order to paid
+//@route GET/api/orders/:id/pay
+//@access Private
+
+const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
+  
+  const order= await Order.findById(req.params.id)
+  
+  if(order){
+    order.isPaid= true,
+    order.paidAt= Date.now(),
+    order.paymentResult= ({  //coming from Paypal
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    })
+
+    const updatedOrder = await order.save()
+    res.json(updatedOrder)
+  }else{
+    res.status(404)
+    throw new Error ("order not found")
+  }
+  
+  
+    }
+  );
+  
 
 
+  
+
+//@desc get loggedIn user Orders
+//@route GET/api/orders/myorders
+//@access Private
+
+const getMyOrders= expressAsyncHandler(async (req, res) => {
+  
+  const orders= await Order.find({user: req.user._id})
+ res.json(orders)
+  
+    }
+  );
+  
 
 
-
-
-
-
-
-
-
-
-
-
-export {addOrderItems, getOrderById}
+export {addOrderItems, getOrderById, updateOrderToPaid, getMyOrders}
