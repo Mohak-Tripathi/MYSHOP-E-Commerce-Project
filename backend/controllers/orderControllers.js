@@ -72,7 +72,7 @@ if(order){
 
 
 //@desc Update order to paid
-//@route GET/api/orders/:id/pay
+//@route PUT/api/orders/:id/pay
 //@access Private
 
 const updateOrderToPaid = expressAsyncHandler(async (req, res) => {

@@ -9,7 +9,6 @@ import {
   ListGroup,
   Image,
   Card,
-  ListGroupItem,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link , useNavigate} from "react-router-dom";
@@ -21,7 +20,7 @@ import {ORDER_PAY_RESET} from "../constants/orderConstant"
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
-  const navigate= useNavigate()
+  // const navigate= useNavigate()
 
   const [sdkReady, setSdkReady] = useState(false);
 
@@ -122,7 +121,7 @@ const successPaymentHandler = (paymentResult) =>{
 
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delievered on {order.deliveredAt} // created at hona chahiye
+                  Delievered on {order.deliveredAt} {/*created at hona chahiye*/}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>

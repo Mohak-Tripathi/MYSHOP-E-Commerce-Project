@@ -48,4 +48,19 @@ throw new Error ("Token failed, bad token ")
 
 }
 )
-export {protect}
+
+
+const admin = (req, res, next) =>{
+    if(req.user && req.user.isAdmin){ //req.user is checking whether user is loggedin
+        next()
+    }
+    else{
+        res.status(401)
+        throw new Error("Not authorized as an Admin")
+    }
+}
+
+
+
+
+export {protect, admin}

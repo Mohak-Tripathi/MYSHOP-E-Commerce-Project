@@ -132,6 +132,28 @@ const getUserProfile = expressAsyncHandler(async(req, res) => {
 
 
 
+//@desc GET all user   
+//@route GET/api/users
+//@access PRIVATE
+
+
+
+
+
+const getUsers = expressAsyncHandler(async(req, res) => {
+
+
+  const users = await User.find({})
+res.json(users)
+
+ 
+}
+)
+
+
+
+
+
 
 //@desc update user PROFILE  
 //@route PUT/api/users/profile
@@ -177,6 +199,8 @@ token: generateToken(updatedUser._id)
 
 
 
-export {authUser, getUserProfile, registerUser, updateUserProfile}
+
+
+export {authUser, getUserProfile, registerUser, updateUserProfile, getUsers}
 
 
