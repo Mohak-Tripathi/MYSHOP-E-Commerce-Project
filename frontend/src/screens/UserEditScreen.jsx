@@ -1,127 +1,93 @@
 import React from "react";
-import { useState} from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Message from "../Components/Message.jsx";
 import Loader from "../Components/Loader";
-import { register} from "../actions/userActions";
+import { getUserDetails } from "../actions/userActions";
 import FormContainer from "../Components/FormContainer";
 
 const UserEditScreen = () => {
-    const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState(null);
-
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { id } = useParams();
 
-  let result = (id ? id.toString() : "/")
+  const navigate = useNavigate();
 
-const navigate= useNavigate()
+  const dispatch = useDispatch();
 
+  const userDetails = useSelector((state) => state.userDetails);
 
-  const dispatch = useDispatch()
+  const { loading, error, user } = userDetails;
 
-  const userRegister = useSelector((state) => state.userRegister )
-
-// const {loading, error, userInfo} = userLogin
-const {loading, error} = userRegister
-
-  
-  // console.log(searchParams)
-  // //   console.log([...searchParams]); // will be [] empty array if no searchParams is found
-  // const redirect = [...searchParams].length > 0 ? [...searchParams][0][1] : "/";
-
-
-
-//   useEffect(()=>{
-//     if(userInfo){
-//       navigate(result);
-//     }
-//   // }, [navigate, redirect, userInfo])
-// }, [navigate, result, userInfo])
+  useEffect(()=>{
+    if(!user.name || user._id !== id){
+        dispatch(getUserDetails(id))
+    }
+    else{
+        setName(user.name)
+        setEmail(user.email)
+        setIsAdmin(user.isAdmin)
+    }
+  },[id, dispatch, user._id, user.name, user.isAdmin, user.email])
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    if(password !== confirmPassword){
-        setMessage("Passwords do not match")
-    }
-    else{
-        dispatch(register(name,email,password))
-        navigate(result)
-    }
-  
   };
 
   return (
-    <FormContainer>
-      <h1> Sign Up</h1>
-{message && <Message variant="danger">{message}</Message>}
-{error && <Message variant="danger">{error}</Message>}
-{loading && <Loader />}
+    <>
+      <Link to='/admin/userList' className='btn btn-light my-3'>
+        Go Back
+      </Link>
+      <FormContainer>
+        <h1> Edit User</h1>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant='danger'>{error}</Message>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId='name'>
+              <Form.Label> Name</Form.Label>
+              <Form.Control
+                type='name'
+                placeholder='Enter Name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-      <Form onSubmit={submitHandler}>
+            <Form.Group controlId='email'>
+              <Form.Label> Email Address</Form.Label>
+              <Form.Control
+                type='email'
+                placeholder='Enter email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-      <Form.Group controlId='name'>
-          <Form.Label> Name</Form.Label>
-          <Form.Control
-            type='name'
-            placeholder='Enter Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+            <Form.Group controlId='isAdmin'>
+              <Form.Check
+                type='checkbox'
+                label='Is Admin'
+                checked={isAdmin}
+                onChange={(e) => setIsAdmin(e.target.checked)}
+              ></Form.Check>
+            </Form.Group>
 
-
-
-
-        <Form.Group controlId='email'>
-          <Form.Label> Email Address</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Enter email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId='password'>
-          <Form.Label> Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId='confirmPassword'>
-          <Form.Label> confirmPassword</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter confirm Password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-
-
-
-        <Button className="my-3" type='submit' variant='primary'>
-          {" "}
-          Update
-        </Button>
-      </Form>
-
-  
-
-    
-    </FormContainer>
+            <Button className='my-3' type='submit' variant='primary'>
+              {" "}
+              Update
+            </Button>
+          </Form>
+        )}
+      </FormContainer>
+    </>
   );
 };
 
