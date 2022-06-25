@@ -180,7 +180,7 @@ const getUserById= expressAsyncHandler(async (req, res) => {
 const updateUser = expressAsyncHandler(async (req, res) => {
 
 
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.params.id);
 
   if (user) {
     user.name = req.body.name || user.name; // automatix=c fillup in frontend
@@ -189,7 +189,8 @@ const updateUser = expressAsyncHandler(async (req, res) => {
     //   user.password = req.body.password;
     // }   // Admin do not want to change user passwords
 
-    user.isAdmin = req.body.isAdmin || user.isAdmin;
+    user.isAdmin = req.body.isAdmin
+
 
     const updatedUser = await user.save();
 
