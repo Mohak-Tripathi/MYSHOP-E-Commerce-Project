@@ -2,7 +2,7 @@ import {legacy_createStore as createStore, combineReducers, applyMiddleware } fr
 import { composeWithDevTools } from "@redux-devtools/extension";
 
 
-import { productListReducer , productDetailsReducer, productDeleteReducer} from './reducers/productReducers.js';
+import { productListReducer , productDetailsReducer, productDeleteReducer, productCreateReducer} from './reducers/productReducers.js';
 import {cartReducer} from "./reducers/cartReducer.js"
 import {userLoginReducer,userRegisterReducer, userDetailsReducer,userUpdateProfileReducer, userListReducer, userDeleteReducer, userUpdateReducer} from "./reducers/userReducers.js"
 
@@ -17,6 +17,7 @@ const rootreducer = combineReducers({
     productList : productListReducer,
     productDetails : productDetailsReducer ,
     productDelete: productDeleteReducer,
+    productCreate: productCreateReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,

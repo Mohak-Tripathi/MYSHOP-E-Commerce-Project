@@ -6,45 +6,70 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../Components/Message.jsx";
 import Loader from "../Components/Loader";
-import { useNavigate} from "react-router-dom";
-import { listProducts, deleteProduct } from "../actions/productActions";
+import { useNavigate } from "react-router-dom";
+import {
+  listProducts,
+  deleteProduct,
+  createProduct,
+} from "../actions/productActions";
+
+import { PRODUCT_CREATE_RESET } from "../constants/productConstant";
 
 const ProductListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-
 
   const productDelete = useSelector((state) => state.productDelete);
-  const { loading: loadingDelete, error: errorDelete, success:successDelete } = productDelete;
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete;
 
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
-
-
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    // disabled={userInfo._id === user._id}  // if you don't want Admin should delete itself
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    //to set successCreate to false. if we don'e set PRODUCT_CREATE_RESET then user can't see the product list again and will be redirected to product edit page
 
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    if (!userInfo || !userInfo.isAdmin) {
       navigate("/login");
     }
-  }, [dispatch, navigate, userInfo, successDelete]);
+
+    if (successCreate) {
+      navigate(`/admin/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    successCreate,
+    successDelete,
+    createdProduct,
+  ]);
 
   const deleteHandler = (Id) => {
     if (window.confirm("Are you sure")) {
-        dispatch(deleteProduct(Id));
+      dispatch(deleteProduct(Id));
     }
   };
 
   const createProductHandler = () => {
-    console.log("hello");
+    dispatch(createProduct());
   };
 
   return (
@@ -60,8 +85,11 @@ const ProductListScreen = () => {
         </Col>
       </Row>
 
-      {loadingDelete && <Loader/>}
-      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
       {loading ? (
         <Loader />

@@ -11,7 +11,7 @@ import {
   Card,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link , useNavigate} from "react-router-dom";
+import { useParams, Link} from "react-router-dom";
 import Loader from "../Components/Loader.jsx";
 import Message from "../Components/Message.jsx";
 import { getOrderDetails,payOrder} from "../actions/orderActions";
