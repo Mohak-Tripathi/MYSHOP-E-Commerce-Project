@@ -16,7 +16,7 @@ import OrderScreen from "./screens/OrderScreen.jsx";
 import UserListScreen from "./screens/UserListScreen.jsx";
 import UserEditScreen from "./screens/UserEditScreen.jsx";
 import ProductListScreen from "./screens/ProductListScreen.jsx";
-
+import ProductEditScreen from "./screens/ProductEditScreen.jsx";
 
 function App() {
   return (
@@ -39,7 +39,8 @@ function App() {
             <Route path='/admin/userlist' element={<UserListScreen />} />
             <Route path='/admin/productlist' element={<ProductListScreen />} />
             <Route path='/placeorder' element={<PlaceOrderScreen />} />
-            
+
+                     <Route path='/admin/product/:id/edit' element={<ProductEditScreen />} />   
             <Route path='/order/:id' element={<OrderScreen />} />
             {"? MAKES id OPTIONAL    in cart/id"}
           </Routes>
