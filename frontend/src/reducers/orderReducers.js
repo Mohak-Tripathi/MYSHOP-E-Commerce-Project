@@ -16,7 +16,7 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
-  ORDER_LIST_RESET,
+  // ORDER_LIST_RESET,
 } from "../constants/orderConstant.js";
 
 export const orderCreateReducer = (state = {}, action) => {
