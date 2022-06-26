@@ -90,6 +90,7 @@ const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
     })
 
     const updatedOrder = await order.save()
+    console.log(updatedOrder, "checkMohak")
     res.json(updatedOrder)
   }else{
     res.status(404)

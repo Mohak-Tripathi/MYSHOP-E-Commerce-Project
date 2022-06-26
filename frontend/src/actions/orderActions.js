@@ -114,8 +114,7 @@ export const payOrder =
 
       const { data } = await axios.put(
         `http://localhost:5000/api/orders/${orderId}/pay`,
-        paymentResult,
-        config //NOT PASSING ORDER AS ORDER ALREADY THERE JUST UPDATING THE ORDER WITH ITS ORDERID
+        paymentResult, config //NOT PASSING ORDER AS ORDER ALREADY THERE JUST UPDATING THE ORDER WITH ITS ORDERID
       );
 
       console.log(data, "mohakdata");
