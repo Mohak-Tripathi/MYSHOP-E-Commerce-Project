@@ -3,28 +3,24 @@ import { PayPalButton } from "react-paypal-button-v2";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Card,
-} from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate, Link} from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Loader from "../Components/Loader.jsx";
 import Message from "../Components/Message.jsx";
-import { getOrderDetails,payOrder} from "../actions/orderActions";
-import {ORDER_PAY_RESET} from "../constants/orderConstant"
-
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../actions/orderActions";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from "../constants/orderConstant";
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
-  const navigate= useNavigate()
-
-
-
-
+  const navigate = useNavigate();
 
   const [sdkReady, setSdkReady] = useState(false);
 
@@ -33,16 +29,15 @@ const OrderScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-
-
-
   const orderDetails = useSelector((state) => state.orderDetails);
 
   const { order, loading, error } = orderDetails; // here orderDetails not getorderDetails (which is an action)
 
   const orderPay = useSelector((state) => state.orderPay);
-
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   if (!loading) {
     const addDecimals = (num) => {
@@ -57,10 +52,9 @@ const OrderScreen = () => {
   }
 
   useEffect(() => {
-
-if(!userInfo){
-  navigate("/login")
-}
+    if (!userInfo) {
+      navigate("/login");
+    }
 
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get(
@@ -79,8 +73,10 @@ if(!userInfo){
       // "https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&locale=en_US"></script
     };
 
-    if (!order || order._id !== id || successPay) {
-      dispatch({type:ORDER_PAY_RESET})
+    if (!order || order._id !== id || successPay || successDeliver ) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
+
       dispatch(getOrderDetails(id)); // with successPay==true - it will redispatch
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -89,15 +85,17 @@ if(!userInfo){
         setSdkReady(true);
       }
     }
-  }, [dispatch, id, order, successPay, navigate, userInfo]);
+  }, [dispatch, id, order, successPay, navigate, userInfo, successDeliver]);
 
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult, "checkit");
 
-const successPaymentHandler = (paymentResult) =>{
-  console.log(paymentResult, "checkit")
+    dispatch(payOrder(id, paymentResult));
+  };
 
-  dispatch(payOrder(id, paymentResult))
-}
-
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
+  };
 
   return loading ? (
     <Loader />
@@ -132,7 +130,8 @@ const successPaymentHandler = (paymentResult) =>{
 
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delievered on {order.deliveredAt} {/*created at hona chahiye*/}
+                  Delievered on {order.deliveredAt}{" "}
+                  {/*created at hona chahiye*/}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>
@@ -211,14 +210,14 @@ const successPaymentHandler = (paymentResult) =>{
               <ListGroup.Item>
                 <Row>
                   <Col> Shipping Price</Col>
-                  <Col>  ${order.shippingPrice}</Col>
+                  <Col> ${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Tax Price </Col>
-                  <Col>  ${order.taxPrice}</Col>
+                  <Col> ${order.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -235,10 +234,22 @@ const successPaymentHandler = (paymentResult) =>{
                   {!sdkReady ? (
                     <Loader />
                   ) : (
-                    <PayPalButton amount={order.totalPrice}
-                      onSuccess={ successPaymentHandler}
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
                     />
                   )}
+                </ListGroup.Item>
+              )}
+
+{loadingDeliver && <Loader />}
+              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button
+                    type='button'
+                    className='btn btn-block'
+                    onClick={deliverHandler}
+                  >Mark as Delivered</Button>
                 </ListGroup.Item>
               )}
             </ListGroup>

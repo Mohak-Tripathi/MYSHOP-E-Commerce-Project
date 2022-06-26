@@ -90,8 +90,38 @@ const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
     })
 
     const updatedOrder = await order.save()
-    console.log(updatedOrder, "checkMohak")
+    // console.log(updatedOrder, "checkMohak")
     res.json(updatedOrder)
+  }else{
+    res.status(404)
+    throw new Error ("order not found")
+  }
+  
+  
+    }
+  );
+
+
+
+
+  
+
+//@desc Update order to delivered
+//@route PUT/api/orders/:id/deliver
+//@access Private/Admin
+
+const updateOrderToDelivered = expressAsyncHandler(async (req, res) => {
+  
+  const order= await Order.findById(req.params.id)
+  
+  if(order){
+    order.isDelivered= true,
+    order.deliveredAt= Date.now()
+ 
+
+    const updatedOrderDel = await order.save()
+    console.log(updatedOrderDel, "checkMohak")
+    res.json(updatedOrderDel)
   }else{
     res.status(404)
     throw new Error ("order not found")
@@ -132,4 +162,4 @@ const getOrders= expressAsyncHandler(async (req, res) => {
   );
 
 
-export {addOrderItems, getOrderById, updateOrderToPaid, getMyOrders, getOrders}
+export {addOrderItems, getOrderById, updateOrderToPaid, getMyOrders, getOrders, updateOrderToDelivered}

@@ -14,6 +14,10 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_FAIL,
   ORDER_LIST_SUCCESS,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL,
+  ORDER_DELIVER_RESET,
 } from "../constants/orderConstant";
 // import {CART_CLEAR_ITEMS} from "../constants/cartConstant"
 
@@ -114,7 +118,8 @@ export const payOrder =
 
       const { data } = await axios.put(
         `http://localhost:5000/api/orders/${orderId}/pay`,
-        paymentResult, config //NOT PASSING ORDER AS ORDER ALREADY THERE JUST UPDATING THE ORDER WITH ITS ORDERID
+        paymentResult,
+        config //NOT PASSING ORDER AS ORDER ALREADY THERE JUST UPDATING THE ORDER WITH ITS ORDERID
       );
 
       console.log(data, "mohakdata");
@@ -131,6 +136,43 @@ export const payOrder =
       });
     }
   };
+
+
+export const deliverOrder = (order) => async (dispatch, getState) => {
+ 
+  try {
+    dispatch({
+      type: ORDER_DELIVER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`, //NOT SENDING SO NO CONTENT TYPE
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/orders/${order._id}/deliver`, {},
+      config  );
+
+    console.log(data, "mohakdata");
+
+    dispatch({ type: ORDER_DELIVER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELIVER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+  
+    });
+  }
+};
 
 export const listMyOrders = () => async (dispatch, getState) => {
   //no parameters as we know by token
@@ -167,9 +209,6 @@ export const listMyOrders = () => async (dispatch, getState) => {
   }
 };
 
-
-
-
 export const listOrders = () => async (dispatch, getState) => {
   //no parameters as we know by token
   try {
@@ -200,8 +239,6 @@ export const listOrders = () => async (dispatch, getState) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
-
     });
   }
 };
-
