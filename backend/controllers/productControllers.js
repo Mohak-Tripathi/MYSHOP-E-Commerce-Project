@@ -90,49 +90,51 @@ const updateProduct = expressAsyncHandler (async (req, res) => {
     throw new Error('Product not found')
   }
 })
+
+
 // Note= Another way as well which we used in  updateUserProfile 
 
 
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
-// @access  Private
-// const createProductReview = expressAsyncHandler (async (req, res) => {
-//   const { rating, comment } = req.body
+// @access  Private   but not admin 
+const createProductReview = expressAsyncHandler (async (req, res) => {
+  const { rating, comment } = req.body
 
-//   const product = await Product.findById(req.params.id)
+  const product = await Product.findById(req.params.id) // we need to find the product which we are reviewing
 
-//   if (product) {
-//     const alreadyReviewed = product.reviews.find(
-//       (r) => r.user.toString() === req.user._id.toString()
-//     )
+  if (product) {
+    const alreadyReviewed = product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    )
 
-//     if (alreadyReviewed) {
-//       res.status(400)
-//       throw new Error('Product already reviewed')
-//     }
+    if (alreadyReviewed) {
+      res.status(400)
+      throw new Error('Product already reviewed')
+    }
 
-//     const review = {
-//       name: req.user.name,
-//       rating: Number(rating),
-//       comment,
-//       user: req.user._id,
-//     }
+    const review = {
+      name: req.user.name, //logged in user
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    }
 
-//     product.reviews.push(review)
+    product.reviews.push(review)
 
-//     product.numReviews = product.reviews.length
+    product.numReviews = product.reviews.length
 
-//     product.rating =
-//       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-//       product.reviews.length
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length
 
-//     await product.save()
-//     res.status(201).json({ message: 'Review added' })
-//   } else {
-//     res.status(404)
-//     throw new Error('Product not found')
-//   }
-// })
+    await product.save()
+    res.status(201).json({ message: 'Review added' })
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
+  }
+})
 
 // @desc    Get top rated products
 // @route   GET /api/products/top
@@ -149,6 +151,6 @@ export {
   deleteProduct,
   createProduct,
   updateProduct,
-//   createProductReview,
+  createProductReview,
 //   getTopProducts,
 }
