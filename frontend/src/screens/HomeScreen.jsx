@@ -1,6 +1,7 @@
 import React from 'react'
 import {useEffect} from "react";
 import { Row,Col } from 'react-bootstrap'
+import {useNavigate} from "react-router-dom"
 import Product from "../Components/Product"
 import { useDispatch, useSelector } from 'react-redux';
 import {listProducts} from "../actions/productActions.js"
@@ -10,6 +11,10 @@ import Loader from "../Components/Loader.jsx"
 const HomeScreen = () => {
 
 const dispatch = useDispatch()
+const navigate = useNavigate()
+
+const userLogin = useSelector((state) => state.userLogin);
+const { userInfo } = userLogin;
 
 const productList = useSelector((state)=>{
   return state.productList;
@@ -23,9 +28,14 @@ const {loading, error, products}= productList
   // const [products, setProducts]= useState([])
 
  useEffect(()=>{
+
+  if(!userInfo){
+    navigate("/login")
+  }
+  
 dispatch(listProducts())
 
- },[dispatch])
+ },[dispatch, navigate, userInfo])
 
 
 
