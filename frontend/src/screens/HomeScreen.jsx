@@ -7,8 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {listProducts} from "../actions/productActions.js"
 import Message from "../Components/Message.jsx"
 import Loader from "../Components/Loader.jsx"
+import {useParams} from "react-router-dom"
 
 const HomeScreen = () => {
+const { keyword} = useParams()
+
+// console.log(keyword, "keywordMT")
 
 const dispatch = useDispatch()
 const navigate = useNavigate()
@@ -33,9 +37,9 @@ const {loading, error, products}= productList
     navigate("/login")
   }
   
-dispatch(listProducts())
+dispatch(listProducts(keyword))
 
- },[dispatch, navigate, userInfo])
+ },[dispatch, navigate, userInfo, keyword])
 
 
 

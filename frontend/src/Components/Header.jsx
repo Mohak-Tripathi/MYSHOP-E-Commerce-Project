@@ -1,16 +1,32 @@
-import React from "react";
-import {Route} from "react-router-dom"
+import React, {useEffect} from "react";
+
+import {useParams} from "react-router-dom"
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions.js";
+import {listProducts} from "../actions/productActions"
 import SearchBox from "./SearchBox"
+
 const Header = () => {
   const dispatch = useDispatch();
+  const params= useParams()
+
+const keyword= params.keyword
+
+console.log(params, keyword, "hello")
+
+// const productList = useSelector((state) =>state.productList)
+// const {loading, error, products} = productList
 
   const userLogin = useSelector((state) => state.userLogin);
 
   const { userInfo } = userLogin;
+
+useEffect(()=>{
+  dispatch(listProducts(keyword))
+}, [dispatch, keyword])
+
 
   const logoutHandler = () => {
     // console.log("Hi")

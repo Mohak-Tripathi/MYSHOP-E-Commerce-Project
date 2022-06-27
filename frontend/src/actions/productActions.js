@@ -25,13 +25,14 @@ import {
   //PRODUCT_UPDATE_RESET
 } from "../constants/productConstant.js";
 
-export const listProducts = () => {
+export const listProducts = (keyword="", pageNumber="") => {
   return async function (dispatch) {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
 
-      const { data } = await axios.get("http://localhost:5000/api/products");
-
+      const { data } = await axios.get(`http://localhost:5000/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+      //if you have more than 1 qeryString then use ? for first and then &.
+// now data includes=> products, pages and page
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
