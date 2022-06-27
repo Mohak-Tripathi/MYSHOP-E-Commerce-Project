@@ -30,7 +30,7 @@ const HomeScreen = () => {
   });
   // note- productList name here becz that what we use in combinereducer
 
-  const { loading, error, products, page, pages,  } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   // const [products, setProducts]= useState([])
 
@@ -52,14 +52,19 @@ const HomeScreen = () => {
         <Message variant='danger'> {error}</Message>
       ) : (
         <>
-        <Row>
-          {products.map((product) => (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
-        <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}  />
+        {products.length === 0 && <Message variant="danger" >Product not found</Message>}
+          <Row>
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </>

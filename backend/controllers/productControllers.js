@@ -148,11 +148,12 @@ const createProductReview = expressAsyncHandler(async (req, res) => {
 // @desc    Get top rated products
 // @route   GET /api/products/top
 // @access  Public
-// const getTopProducts = asyncHandler(async (req, res) => {
-//   const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+const getTopProducts = expressAsyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3) //descending order
 
-//   res.json(products)
-// })
+  res.json(products)
+  // Note- You could edit the getproduct route as well but seperated is more clean as that has become messay pagesize, page etc
+})
 
 export {
   getProducts,
@@ -161,5 +162,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
-  //   getTopProducts,
+    getTopProducts,
 };

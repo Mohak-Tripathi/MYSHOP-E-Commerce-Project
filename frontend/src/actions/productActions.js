@@ -18,7 +18,10 @@ import {
   PRODUCT_UPDATE_FAIL,
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_REQUEST,
-  PRODUCT_CREATE_REVIEW_FAIL
+  PRODUCT_CREATE_REVIEW_FAIL,
+  PRODUCT_TOP_SUCCESS,
+  PRODUCT_TOP_FAIL,
+  PRODUCT_TOP_REQUEST
   
 
   // PRODUCT_CREATE_RESET, don't need here
@@ -212,3 +215,25 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
   }
 };
 
+
+
+export const listTopProducts = () => {
+  return async function (dispatch) {
+    try {
+      dispatch({ type: PRODUCT_TOP_REQUEST });
+
+      const { data } = await axios.get(`http://localhost:5000/api/products/top`);
+    
+      dispatch({ type: PRODUCT_TOP_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_TOP_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+        // payload: error.response,
+      });
+    }
+  };
+};
