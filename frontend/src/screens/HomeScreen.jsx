@@ -1,65 +1,69 @@
-import React from 'react'
-import {useEffect} from "react";
-import { Row,Col } from 'react-bootstrap'
-import {useNavigate} from "react-router-dom"
-import Product from "../Components/Product"
-import { useDispatch, useSelector } from 'react-redux';
-import {listProducts} from "../actions/productActions.js"
-import Message from "../Components/Message.jsx"
-import Loader from "../Components/Loader.jsx"
-import {useParams} from "react-router-dom"
+import React from "react";
+import { useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import Product from "../Components/Product";
+import { useDispatch, useSelector } from "react-redux";
+import { listProducts } from "../actions/productActions.js";
+import Message from "../Components/Message.jsx";
+import Loader from "../Components/Loader.jsx";
+import { useParams } from "react-router-dom";
+import Paginate from "../Components/Paginate";
 
 const HomeScreen = () => {
-const { keyword} = useParams()
+  const { keyword } = useParams();
+  const { pageNumber } = useParams();
 
-// console.log(keyword, "keywordMT")
+  const p1 = pageNumber || 1;
 
-const dispatch = useDispatch()
-const navigate = useNavigate()
+  console.log(p1, "p1");
+  // console.log(keyword, "keywordMT")
 
-const userLogin = useSelector((state) => state.userLogin);
-const { userInfo } = userLogin;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-const productList = useSelector((state)=>{
-  return state.productList;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-})
-// note- productList name here becz that what we use in combinereducer
+  const productList = useSelector((state) => {
+    return state.productList;
+  });
+  // note- productList name here becz that what we use in combinereducer
 
+  const { loading, error, products, page, pages,  } = productList;
 
-const {loading, error, products}= productList 
-  
   // const [products, setProducts]= useState([])
 
- useEffect(()=>{
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
+    }
 
-  if(!userInfo){
-    navigate("/login")
-  }
-  
-dispatch(listProducts(keyword))
-
- },[dispatch, navigate, userInfo, keyword])
-
-
+    dispatch(listProducts(keyword, p1));
+  }, [dispatch, navigate, userInfo, keyword, p1]);
 
   return (
     <>
-<h1> Latest Top Products </h1>
+      <h1> Latest Top Products </h1>
 
-{loading ? <Loader/> : error ?  <Message variant="danger"> {error}</Message>   : <Row>
-{products.map((product)=>(
-    <Col key={product._id} sm={12} md={6} lg={4} xl={3}>    
-
-    <Product product={product} />
-    </Col>
-))}
-
-</Row> } 
-
-
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'> {error}</Message>
+      ) : (
+        <>
+        <Row>
+          {products.map((product) => (
+            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+        <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''}  />
+        </>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
