@@ -7,16 +7,20 @@ import { useParams } from "react-router-dom";
 
 import { Row, Col, Image, ListGroup, Card, Button, Form } from "react-bootstrap";
 import Rating from "../Components/Rating";
-import { listProductDetails } from "../actions/productActions";
+import { listProductDetails, createProductReview } from "../actions/productActions";
 import Loader from "../Components/Loader.jsx"
 import Message from "../Components/Message.jsx"
 import {useNavigate} from "react-router-dom"
+
+import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstant";
 
 
 const ProductScreen = () => {
   const { id } = useParams();
 
 const [qty, setQty]= useState(1)
+const [rating, setRating]= useState(0)
+const [comment, setComment] = useState("")
 
 const navigate= useNavigate()
 // console.log(qty)
@@ -31,7 +35,22 @@ const navigate= useNavigate()
 
   const { loading, error, product } = productDetails;
 
+
+  const productReviewCreate = useSelector((state) => {
+    return state.productReviewCreate;
+  });
+
+  const { error: errorProductReview, success: successProductReview } = productReviewCreate;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  
+
+
+
   useEffect(() => {
+   
+
     dispatch(listProductDetails(id));
   }, [dispatch, id])
 
@@ -50,6 +69,7 @@ const navigate= useNavigate()
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
+        <>
         <Row>
           <Col md={6}>
             <Image src={product.image} fluid />
@@ -129,7 +149,7 @@ const navigate= useNavigate()
                 <ListGroup.Item>
                   <Button
                   onClick= {addToCartHandler}
-                    className='btn-block'
+                    className= "btn-block d-block w-100"
                     type='button'
                     disabled={product.countInStock === 0}
                   >
@@ -141,6 +161,13 @@ const navigate= useNavigate()
             </Card>
           </Col>
         </Row>
+        <Row>
+          <Col md={6}>
+
+          </Col>
+        </Row>
+
+        </>
       )}
     </>
   );

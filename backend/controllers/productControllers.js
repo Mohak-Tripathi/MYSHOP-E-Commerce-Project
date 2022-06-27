@@ -113,8 +113,10 @@ const createProductReview = expressAsyncHandler (async (req, res) => {
       throw new Error('Product already reviewed')
     }
 
+    // console.log(req.user.email)
+
     const review = {
-      name: req.user.name, //logged in user
+      name: req.user.name, //logged in user // header se mil rha hai user
       rating: Number(rating),
       comment,
       user: req.user._id,

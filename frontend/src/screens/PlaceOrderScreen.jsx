@@ -176,7 +176,7 @@ useEffect(()=>{
               <ListGroup.Item>
                 <Button
                   type='button'
-                  className='btn-block btn'
+                  className='btn-block btn d-block w-100'
                   disabled={cart.cartItems === 0}
                   onClick={ () => placeOrderHandler(cart)}
                 >
