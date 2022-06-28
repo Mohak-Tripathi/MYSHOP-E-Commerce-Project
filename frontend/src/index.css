@@ -30,7 +30,7 @@ h1{
   top: 0;
 }
 
-.carousel-caption h3 {
+.carousel-caption h6 {
   color: #fff;
 }
 
@@ -46,8 +46,8 @@ h1{
   margin: 0 auto;
 }
 @media (max-width: 900px) {
-  .carousel-caption h3 {
-    font-size: 2.5vw;
+  .carousel-caption h6 {
+    font-size: 1vw;
   }
 }
 
