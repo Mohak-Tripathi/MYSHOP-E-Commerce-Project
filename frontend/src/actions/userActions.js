@@ -45,7 +45,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/users/login",
+      "https://my-mt-shop.herokuapp.com/api/users/login",
       { email, password },
       config
     );
@@ -107,7 +107,7 @@ export const register = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/users",
+      "https://my-mt-shop.herokuapp.com/api/users",
       { name, email, password },
       config
     );
@@ -141,9 +141,6 @@ export const getUserDetails= (id) => async (dispatch, getState) => {
     const {userLogin: {userInfo}} = getState()
 
 
-// console.log(userInfo, "vertika")
-//    console.log(userInfo.token, "mohak")
-
 
     const config = {
       headers: {
@@ -154,7 +151,7 @@ export const getUserDetails= (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/users/${id}`,
+      `https://my-mt-shop.herokuapp.com/api/users/${id}`,
       config
     );
 
@@ -190,10 +187,6 @@ export const updateUserProfile= (user) => async (dispatch, getState) => {
     const {userLogin: {userInfo}} = getState()
 
 
-// console.log(userInfo, "vertika")
-//    console.log(userInfo.token, "mohak")
-
-
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -203,7 +196,7 @@ export const updateUserProfile= (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/users/profile`, user, 
+      `https://my-mt-shop.herokuapp.com/api/users/profile`, user, 
       config
     );
 
@@ -246,7 +239,7 @@ export const listUsers= () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/users`, config
+      `https://my-mt-shop.herokuapp.com/api/users`, config
     );
 
     dispatch({ type: USER_LIST_SUCCESS, payload: data });
@@ -286,7 +279,7 @@ export const deleteUser= (id) => async (dispatch, getState) => {
     };
 
    await axios.delete(
-      `/api/users/${id}`, config
+      `https://my-mt-shop.herokuapp.com/api/users/${id}`, config
     );
 
     dispatch({ type: USER_DELETE_SUCCESS}); // NO NEED OF PAYLOAD-JUST PASSING SUCCESS FROM REDUCER
@@ -326,7 +319,7 @@ export const updateUser= (user) => async (dispatch, getState) => {
     };
 
   const {data}= await axios.put(
-      `/api/users/${user._id}`, user, config
+      `https://my-mt-shop.herokuapp.com/api/users/${user._id}`, user, config
     );
 
     dispatch({ type: USER_UPDATE_SUCCESS}); 

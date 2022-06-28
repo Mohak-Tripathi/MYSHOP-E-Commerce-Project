@@ -5,7 +5,7 @@ import axios from "axios";
 export const addToCart = (id, qty) => {
   return async function (dispatch, getState) {
     const  {data}  = await axios.get( 
-      `/api/products/${id}`
+      `https://my-mt-shop.herokuapp.com/api/products/${id}`
     );
 
     // console.log(data, "ji")

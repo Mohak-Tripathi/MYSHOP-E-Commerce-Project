@@ -33,7 +33,7 @@ export const listProducts = (keyword="", pageNumber="") => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
 
-      const { data } = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+      const { data } = await axios.get(`https://my-mt-shop.herokuapp.com/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
       //if you have more than 1 qeryString then use ? for first and then &.
 // now data includes=> products, pages and page
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
@@ -56,7 +56,7 @@ export const listProductDetails = (id) => {
       dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
       const { data } = await axios.get(
-        `/api/products/${id}`
+        `https://my-mt-shop.herokuapp.com/api/products/${id}`
       );
 
       dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
@@ -88,7 +88,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(`https://my-mt-shop.herokuapp.com/api/products/${id}`, config);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -120,7 +120,7 @@ export const createProduct = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `/api/products`,
+      `https://my-mt-shop.herokuapp.com/api/products`,
       {},
       config
     );
@@ -159,7 +159,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/products/${product._id}`, product,
+      `https://my-mt-shop.herokuapp.com/api/products/${product._id}`, product,
       config
     );
 
@@ -198,7 +198,7 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
     };
 
     await axios.post(
-      `/api/products/${productId}/reviews`, review,
+      `https://my-mt-shop.herokuapp.com/api/products/${productId}/reviews`, review,
       config
     );
 
@@ -222,7 +222,7 @@ export const listTopProducts = () => {
     try {
       dispatch({ type: PRODUCT_TOP_REQUEST });
 
-      const { data } = await axios.get(`/api/products/top`);
+      const { data } = await axios.get(`https://my-mt-shop.herokuapp.com/api/products/top`);
     
       dispatch({ type: PRODUCT_TOP_SUCCESS, payload: data });
     } catch (error) {

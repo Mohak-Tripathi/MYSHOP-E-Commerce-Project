@@ -40,7 +40,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      "/api/orders",
+      "https://my-mt-shop.herokuapp.com/api/orders",
       order,
       config
     );
@@ -79,10 +79,10 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/orders/${id}`,
+      `https://my-mt-shop.herokuapp.com/api/orders/${id}`,
       config
     );
-    // `http://localhost:5000/api/orders/${id}`,
+
 
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -117,7 +117,7 @@ export const payOrder =
       };
 
       const { data } = await axios.put(
-        `/api/orders/${orderId}/pay`,
+        `https://my-mt-shop.herokuapp.com/api/orders/${orderId}/pay`,
         paymentResult,
         config //NOT PASSING ORDER AS ORDER ALREADY THERE JUST UPDATING THE ORDER WITH ITS ORDERID
       );
@@ -156,7 +156,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`, {},
+      `https://my-mt-shop.herokuapp.com/api/orders/${order._id}/deliver`, {},
       config  );
 
     console.log(data, "mohakdata");
@@ -192,7 +192,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/orders/myorders`,
+      `https://my-mt-shop.herokuapp.com/api/orders/myorders`,
       config
     );
 
@@ -227,7 +227,7 @@ export const listOrders = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/orders`,
+      `https://my-mt-shop.herokuapp.com/api/orders`,
       config
     );
 
