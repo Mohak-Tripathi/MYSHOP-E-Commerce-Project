@@ -46,7 +46,7 @@ h1{
   margin: 0 auto;
 }
 @media (max-width: 900px) {
-  .carousel-caption h2 {
+  .carousel-caption h3 {
     font-size: 2.5vw;
   }
 }
