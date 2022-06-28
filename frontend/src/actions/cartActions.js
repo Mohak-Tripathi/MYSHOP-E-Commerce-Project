@@ -4,11 +4,12 @@ import axios from "axios";
 
 export const addToCart = (id, qty) => {
   return async function (dispatch, getState) {
-    const  {data}  = await axios.get(
-      `http://localhost:5000/api/products/${id}`
+    const  {data}  = await axios.get( 
+      `/api/products/${id}`
     );
 
     // console.log(data, "ji")
+        // `http://localhost:5000/api/products/${id}`
     dispatch({
       type: CART_ADD_ITEM,
       payload: {
@@ -24,7 +25,7 @@ export const addToCart = (id, qty) => {
       "cartItems",
       JSON.stringify(getState().cart.cartItems)
     );
-    console.log("joooooooooo")
+
   };
 };
 

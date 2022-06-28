@@ -34,11 +34,8 @@ if(process.env.NODE_ENV === 'development'){  //morgan will run only in developme
 app.use(express.json());
 app.use(cors())
 
-app.get("/", (req, res) => {
-  return res.send("API is running");
-});
 
-const PORT = process.env.PORT || 5000;
+
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -50,13 +47,28 @@ app.get("/api/config/paypal", (req,res)=> res.send(process.env.PAYPAL_CLIENT_ID)
 
 //make upload folder accessible by making it static
 const __dirname= path.resolve()
-
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")))
+
+
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname, "/frontend/build")))
+
+  app.get("*", (req, res)=> res.sendFile(__dirname, "frontend", "build", "index.html"))
+//* - all except api
+}else{
+
+  app.get("/", (req, res) => {
+    return res.send("API is running");
+  });
+}
+
+
 
 app.use(notFound);
 
 app.use(errorHandler);
 
+const PORT = process.env.PORT || 5000
 app.listen(
   PORT,
   console.log(
