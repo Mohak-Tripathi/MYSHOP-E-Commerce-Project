@@ -76,6 +76,7 @@ const OrderScreen = () => {
     if (!order || order._id !== id || successPay || successDeliver ) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
+   
 
       dispatch(getOrderDetails(id)); // with successPay==true - it will redispatch
     } else if (!order.isPaid) {

@@ -1,4 +1,7 @@
+
 import React from "react";
+import {Link} from "react-router-dom";
+import Meta from "../Components/Meta"
 import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +12,7 @@ import Message from "../Components/Message.jsx";
 import Loader from "../Components/Loader.jsx";
 import { useParams } from "react-router-dom";
 import Paginate from "../Components/Paginate";
+import ProductCarousel from "../Components/ProductCarousel";
 
 const HomeScreen = () => {
   const { keyword } = useParams();
@@ -44,6 +48,18 @@ const HomeScreen = () => {
 
   return (
     <>
+{/* <Helmet>
+  <title> Welcome To MyShop- QuickCommerce </title> 
+  <meta name="description" content="We sell best products with fast delivery" />
+<meta name="keywords" content="electronics, buy electronics, quality electronics"/>
+</Helmet> */}
+
+<Meta />
+
+    {/* {!keyword && <ProductCarousel/>}
+    {keyword && <Link to="/"> Go Back</Link>  } */}
+
+    {!keyword ? <ProductCarousel/> : <Link to="/" className="btn btn-light"> Go Back</Link> }
       <h1> Latest Top Products </h1>
 
       {loading ? (

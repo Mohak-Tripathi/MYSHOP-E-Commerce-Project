@@ -20,6 +20,7 @@ import {
   createProductReview,
 } from "../actions/productActions";
 import Loader from "../Components/Loader.jsx";
+import Meta from "../Components/Meta.jsx";
 import Message from "../Components/Message.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -90,6 +91,7 @@ const submitHandler = (e) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
+        <Meta title={product.name} />
           <Row>
             <Col md={6}>
               <Image src={product.image} fluid />
