@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState} from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,9 +14,9 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
 
 
-  const { id } = useParams();
+  // const { id } = useParams();
 
-  let result = (id ? id.toString() : "/")
+  // let result = (id ? id.toString() : "/")
 
 const navigate= useNavigate()
 
@@ -24,14 +24,6 @@ const navigate= useNavigate()
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
-
-  // const [ params, setParams] = useSearchParams();
-
-  // let params = new URLSearchParams(location.pathname);
-
-  
-
-
 
 
 // const {loading, error, userInfo} = userLogin
@@ -51,13 +43,19 @@ const {loading, error, userInfo} = userLogin
 //   // }, [navigate, redirect, userInfo])
 // }, [navigate, result, userInfo])
 
+
+useEffect(()=>{
+if(userInfo){
+navigate("/")
+}
+
+},[userInfo, navigate])
+
   const submitHandler = (e) => {
     e.preventDefault();
     //Dispatch Login
     dispatch(login(email,password))
-    if(userInfo){
-      navigate(result)
-    }
+ 
 
   };
 
