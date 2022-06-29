@@ -118,7 +118,7 @@ const OrderScreen = () => {
               </p>
               <p>
                 {" "}
-                <strong> Email:</strong> {order.user.email}
+                <strong> Email:</strong>
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
 
