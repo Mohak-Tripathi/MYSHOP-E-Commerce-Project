@@ -14,10 +14,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
 
 
-  // const { id } = useParams();
-
-  // let result = (id ? id.toString() : "/")
-
 const navigate= useNavigate()
 
 
