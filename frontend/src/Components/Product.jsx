@@ -6,31 +6,30 @@ import { Link } from "react-router-dom";
 
 const Product = ({ product }) => {
   return (
-<Card style={{ width: '18rem' }}>
-<Link to={`/product/${product._id}`}>
-        <Card.Img src={product.image} variant='top' />
-     </Link>
-
-  <Card.Body>
-  <Link to={`/product/${product._id}`}>
-           <Card.Title>
-             <strong>{product.name}</strong>
-           </Card.Title>
-       </Link>
 
 
-   
+      <Card className='my-3 p-3 rounded'>
+      <Link to={`/product/${product._id}`}>
+        <Card.Img style={{objectFit: "cover", height:"100px", width: "100%"}} src={product.image} variant='top' />
+      </Link>
 
-    <Card.Text className='my-2'>
-       <Rating
+      <Card.Body className='d-flex flex-column justify-content-between'>
+        <Link to={`/product/${product._id}`}>
+          <Card.Title as='div'>
+            <strong>{product.name}</strong>
+          </Card.Title>
+        </Link>
+
+        <Card.Text as='div' className='my-2'>
+          <Rating
             value={product.rating}
             text={`${product.numReviews} reviews`}
           />
-           {/* <Rating value={product.rating} text={20}/> */}
-         </Card.Text>
+          {/* <Rating value={product.rating} text={20}/> */}
+        </Card.Text>
 
-         <Card.Text as='h3'> ${product.price} </Card.Text>
-  </Card.Body>
+        <Card.Text as='h3'> ${product.price} </Card.Text>
+      </Card.Body>
 </Card>
 
 
@@ -38,29 +37,7 @@ const Product = ({ product }) => {
 
 
 
-    // <Card className='my-3 p-3 rounded d-flex flex-column justify-content-between'>
-    //   <Link to={`/product/${product._id}`}>
-    //     <Card.Img src={product.image} variant='top' />
-    //   </Link>
-
-    //   <Card.Body className='d-flex flex-column justify-content-between'>
-    //     <Link to={`/product/${product._id}`}>
-    //       <Card.Title as='div'>
-    //         <strong>{product.name}</strong>
-    //       </Card.Title>
-    //     </Link>
-
-    //     <Card.Text as='div' className='my-2'>
-    //       <Rating
-    //         value={product.rating}
-    //         text={`${product.numReviews} reviews`}
-    //       />
-    //       {/* <Rating value={product.rating} text={20}/> */}
-    //     </Card.Text>
-
-    //     <Card.Text as='h3'> ${product.price} </Card.Text>
-    //   </Card.Body>
-    // </Card>
+  
   );
 };
 
