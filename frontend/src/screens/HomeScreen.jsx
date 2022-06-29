@@ -71,7 +71,7 @@ const HomeScreen = () => {
         {products.length === 0 && <Message variant="danger" >Product not found</Message>}
           <Row>
             {products.map((product) => (
-              <Col className="align-items-stretch d-flex" key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <Col style={{display: "flex"}} key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
             ))}

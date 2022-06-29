@@ -8,12 +8,12 @@ const Product = ({product}) => {
   
     return (
    
-<Card className="my-3 p-3 rounded">
+<Card className="my-3 p-3 rounded d-flex flex-column justify-content-between">
     <Link to={`/product/${product._id}`}>
 
-<div style={{width: "100%", height: "50%"}} > 
+
 <Card.Img src={product.image} variant="top"/>
-</div>
+
 </Link>
    
 
