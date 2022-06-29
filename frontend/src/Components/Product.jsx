@@ -11,7 +11,9 @@ const Product = ({product}) => {
 <Card className="my-3 p-3 rounded">
     <Link to={`/product/${product._id}`}>
 
-<Card.Img style={{width: "100%"}} src={product.image} variant="top"/>
+<div style={{width: "100%", height: "50%"}} > 
+<Card.Img src={product.image} variant="top"/>
+</div>
 </Link>
    
 
