@@ -27,13 +27,9 @@ const navigate= useNavigate()
 
   const userRegister = useSelector((state) => state.userRegister )
 
-// const {loading, error, userInfo} = userLogin
 const {loading, error} = userRegister
 
   
-  // console.log(searchParams)
-  // //   console.log([...searchParams]); // will be [] empty array if no searchParams is found
-  // const redirect = [...searchParams].length > 0 ? [...searchParams][0][1] : "/";
 
 
 

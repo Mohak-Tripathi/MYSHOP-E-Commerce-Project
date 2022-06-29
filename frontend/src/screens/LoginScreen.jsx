@@ -21,23 +21,8 @@ const navigate= useNavigate()
 
   const userLogin = useSelector((state) => state.userLogin)
 
-
-// const {loading, error, userInfo} = userLogin
 const {loading, error, userInfo} = userLogin
 
-  
-  // console.log(searchParams)
-  // //   console.log([...searchParams]); // will be [] empty array if no searchParams is found
-  // const redirect = [...searchParams].length > 0 ? [...searchParams][0][1] : "/";
-
-
-
-//   useEffect(()=>{
-//     if(userInfo){
-//       navigate(result);
-//     }
-//   // }, [navigate, redirect, userInfo])
-// }, [navigate, result, userInfo])
 
 
 useEffect(()=>{
