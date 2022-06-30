@@ -25,7 +25,7 @@ MyShop is an E-Commerce website which is the one stop shop for all electronics p
 ![Screenshot (71)](https://user-images.githubusercontent.com/93336602/176586106-bbdfd297-277f-494f-9b59-ef49ca28f783.png)
 
 
-#Features-
+# MYSHOP E-Commerce-Project Features
 Some of the features are as follows-
 Full featured shopping cart
 Dynamic Routing
@@ -41,7 +41,8 @@ Mark orders as delivered option
 Checkout process (shipping, payment method, etc)
 PayPal / credit card integration
 
-#Important Note
+
+# Important Note
 ES Modules in Node
 I used ECMAScript Modules in the backend in this project. Be sure to have at least Node v14.6+ or you will need to add the "--experimental-modules" flag.
 
