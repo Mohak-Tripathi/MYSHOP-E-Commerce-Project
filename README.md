@@ -27,19 +27,20 @@ MyShop is an E-Commerce website which is the one stop shop for all electronics p
 
 # MYSHOP E-Commerce-Project Features
 Some of the features are as follows-
-Full featured shopping cart
-Dynamic Routing
-Product reviews and ratings
-Top products carousel
-Product pagination
-Product search feature
-User profile with orders
-Admin product management
-Admin user management
-Admin Order details page
-Mark orders as delivered option
-Checkout process (shipping, payment method, etc)
-PayPal / credit card integration
+
+1. Full featured shopping cart
+2. Dynamic Routing
+3. Product reviews and ratings
+4. Top products carousel
+5. Product pagination
+6. Product search feature
+7. User profile with orders
+8. Admin product management
+9. Admin user management
+10. Admin Order details page
+11. Mark orders as delivered option
+12. Checkout process (shipping, payment method, etc)
+13. PayPal / credit card integration
 
 
 # Important Note
