@@ -1,6 +1,9 @@
 # MYSHOP E-Commerce-Project
 MyShop is an E-Commerce website which is the one stop shop for all electronics products. This is an individual project with MERN as a techstack.
 
+# Small Presentation 
+https://drive.google.com/file/d/1HvEfAawiAxkSV6oyoVEf1xGGXCrVtC9T/view?usp=sharing
+
 ![Screenshot (64)](https://user-images.githubusercontent.com/93336602/176585597-9af8693a-4972-484d-b7fc-d793b8ae19d3.png)
 
 
