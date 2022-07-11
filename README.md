@@ -2,7 +2,9 @@
 MyShop is an E-Commerce website which is the one stop shop for all electronics products. This is an individual project with MERN as a techstack.
 
 # Small Presentation 
-https://drive.google.com/file/d/1HvEfAawiAxkSV6oyoVEf1xGGXCrVtC9T/view?usp=sharing
+https://www.linkedin.com/posts/mohak-tripathi_masaischool-masai-ecommercewebsite-activity-6949008082341347328-GK7J?utm_source=linkedin_share&utm_medium=member_desktop_web
+
+
 
 ![Screenshot (64)](https://user-images.githubusercontent.com/93336602/176585597-9af8693a-4972-484d-b7fc-d793b8ae19d3.png)
 
@@ -44,6 +46,10 @@ Some of the features are as follows-
 11. Mark orders as delivered option
 12. Checkout process (shipping, payment method, etc)
 13. PayPal / credit card integration
+
+# Admin Login 
+Email - admin@example.com
+Password - 123456admin
 
 
 # Important Note
